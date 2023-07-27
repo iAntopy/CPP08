@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <random>
+# include <climits>
 # include <vector>
 # include <list>
 # include <deque>
@@ -37,6 +38,7 @@ class Span
 		void		addRange(std::vector<int>::const_iterator start, std::vector<int>::const_iterator end);
 		void		addRange(std::list<int>::const_iterator start, std::list<int>::const_iterator end);
 		void		addRange(std::deque<int>::const_iterator start, std::deque<int>::const_iterator end);
+		
 		uint32_t	shortestSpan(void) const;
 		uint32_t	longestSpan(void) const;
 

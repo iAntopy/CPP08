@@ -12,24 +12,6 @@
 
 #include "Span.hpp"
 
-// template <typename T>
-// class Span
-// {
-// 	private:
-// 		uint32_t	_n;
-// 		T*			_data;
-
-// 	public:
-// 		Span(void);
-// 		Span(uint32_t N);
-// 		Span(const Span& other);
-// 		Span&	operator=(const Span& other);
-// 		~Span(void);
-
-
-// 		void	addNumber(T nb);
-// };
-
 Span::Span(void): _n(0), _size(0), _data(NULL)
 {
 	std::cout << "Span default constuctor" << std::endl;
@@ -94,7 +76,7 @@ void	Span::addRange(std::vector<int>::const_iterator start, std::vector<int>::co
 
 void	Span::addRange(std::list<int>::const_iterator start, std::list<int>::const_iterator end)
 {
-	ssize_t	range_size = std::distance(start, end);
+	ssize_t	range_size = std::distance(end, start);
 
 	if (range_size < 0)
 		throw std::invalid_argument("Iterators in wrong order.");
@@ -131,7 +113,6 @@ uint32_t	Span::shortestSpan(void) const
 		for (uint32_t j=(i + 1); j < _n; ++j)
 		{
 			delta = std::abs(_data[i] - _data[j]);
-//			std::cout << "delta between idx " << i << " and " << j << " : " << delta << std::endl;
 			if (delta < shortest)
 				shortest = delta;
 		}

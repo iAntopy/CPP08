@@ -47,7 +47,7 @@ void	test_add_number(void)
 	sp.addNumber(-100);
 	
 	try { sp.addNumber(-42); }
-	catch (std::exception &e) {std::cerr << "Failed to add a number to Span. SUCCESS !" << std::endl;}
+	catch (std::exception &e) {std::cerr << "Cannot addNumber() exceeding Span maximum capacity. SUCCESS !" << std::endl;}
 
 	std::cout << sp << std::endl;
 }
@@ -62,11 +62,11 @@ void	test_longuest_and_shortest_span(void)
 	Span    sp(6);
 	
 	try {std::cout << sp.longestSpan() << std::endl; std::cout << sp.shortestSpan() << std::endl;}
-	catch (std::exception &e) {std::cerr << "Calling longestSpan on Span with < 2 members fails. SUCCESS !" << std::endl;}
+	catch (std::exception &e) {std::cerr << "Cannot call longestSpan() on Span with < 2 members. SUCCESS !" << std::endl;}
 
 	sp.addNumber(0);
 	try {std::cout << sp.longestSpan() << std::endl; std::cout << sp.shortestSpan() << std::endl;}
-	catch (std::exception &e) {std::cerr << "Calling longestSpan on Span with < 2 members fails. SUCCESS !" << std::endl;}
+	catch (std::exception &e) {std::cerr << "Cannot call shortestSpan() on Span with < 2 members. SUCCESS !" << std::endl;}
 
 	sp.addNumber(50);
 	try {
@@ -82,8 +82,8 @@ void	test_longuest_and_shortest_span(void)
 
 	
 	std::cout << "Span before final test : " << sp << std::endl;
-	std::cout << "Shortest span : " << sp.shortestSpan() << ", should == 1" << std::endl;
-	std::cout << "Longuest span : " << sp.longestSpan() << ", should == 1000000100" << std::endl;
+	std::cout << "Shortest span : " << sp.shortestSpan() << ",		should == 1" << std::endl;
+	std::cout << "Longuest span : " << sp.longestSpan() << ",	should == 1000000100" << std::endl;
 }
 
 
@@ -170,7 +170,7 @@ int main()
 	test_longuest_and_shortest_span();
 	test_standard();
 	test_add_range_small();
-//	test_add_range_large();//	 Achievment locked.
+	//test_add_range_large();//	 Achievment locked.
 	test_add_range_with_range_of_iterators();
 	
 	return (0);
