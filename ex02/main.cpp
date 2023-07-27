@@ -18,17 +18,16 @@ void	test_with_list(std::vector<int>& results)
 {
 	std::list<int> l;
 
+	std::cout << "Passing standard iterator tests with list: " << std::endl;
 
 	l.push_back(5);
 	l.push_back(17);
 	std::cout << *(--l.end()) << std::endl;
 	l.erase(--l.end());
-//	l.pop();
 	std::cout << l.size() << std::endl;
 	l.push_back(3);
 	l.push_back(5);
 	l.push_back(737);
-	//[...]
 	l.push_back(0);
 
 	std::list<int>::iterator it = l.begin();
@@ -38,17 +37,22 @@ void	test_with_list(std::vector<int>& results)
 
 	while (it != ite)
 	{
-		std::cout << *it << std::endl;
+		std::cout << *it << " ";
 		results.push_back(*it);
 		++it;
 	}
-//	std::stack<int> s(l);
+	std::cout << std::endl;
+
+	/// Does not compile because list is not a subclass of stack and
+	/// no explicite conversion exists to convert list to stack.
+	//std::stack<int> regular_stack(l);// DOES NOT COMPILE
 }
 
 void	test_with_vector(std::vector<int>& results)
 {
 	std::vector<int> v;
 
+	std::cout << "Passing standard iterator tests with vector: " << std::endl;
 
 	v.push_back(5);
 	v.push_back(17);
@@ -58,7 +62,6 @@ void	test_with_vector(std::vector<int>& results)
 	v.push_back(3);
 	v.push_back(5);
 	v.push_back(737);
-	//[...]
 	v.push_back(0);
 	
 	std::vector<int>::iterator it = v.begin();
@@ -68,40 +71,53 @@ void	test_with_vector(std::vector<int>& results)
 
 	while (it != ite)
 	{
-		std::cout << *it << std::endl;
+		std::cout << *it << " ";
 		results.push_back(*it);
 		++it;
 	}
-//	std::stack<int> s(v);
+	std::cout << std::endl;
+
+	/// Does not compile because vector is not a subclass of stack and
+	/// no explicite conversion exists to convert list to stack.
+	//std::stack<int> regular_stack(v);// DOES NOT CONMPILE
 }
 
 void	test_with_MutantStack(std::vector<int>& results)
 {
 	MutantStack<int> mstack;
 
+	std::cout << "Passing standard iterator tests with MutantStack: " << std::endl;
+
 	mstack.push(5);
 	mstack.push(17);
 	std::cout << mstack.top() << std::endl;
-	mstack.pop();
+	mstack.pop();// Exclusive to stack (between list, vector and stack).
 	std::cout << mstack.size() << std::endl;
 	mstack.push(3);
 	mstack.push(5);
 	mstack.push(737);
-	//[...]
 	mstack.push(0);
 	
 	MutantStack<int>::iterator it = mstack.begin();
 	MutantStack<int>::iterator ite = mstack.end();
+	
+	// Simple test that iterator works on MutantStack.
 	++it;
 	--it;
 
 	while (it != ite)
 	{
-		std::cout << *it << std::endl;
+		std::cout << *it << " ";
 		results.push_back(*it);
 		++it;
 	}
-	std::stack<int> s(mstack);
+	std::cout << std::endl;
+
+	// We can build a regular stack from a MutantStack because Mutant Stack is subclass of stack.
+	// But iterators won't work on the stack. Iterators only work on MutantStack.
+	std::stack<int> regular_stack(mstack);
+	//std::stack<int>::iterator impossible_it = regular_stack.begin();//	DOES NOT COMPILE
+	//std::stack<int>::iterator impossible_ite = regular_stack.end();//		DOES NOT COMPILE
 }
 
 int main()
@@ -123,34 +139,3 @@ int main()
 
 	return (0);
 }
-
-/*
-int main()
-{
-	MutatedStack<int>	ms;
-
-	ms.push(1);
-	ms.push(2);
-	ms.push(3);
-
-	while (!ms.empty())
-	{
-		std::cout << "poped stack item : " << ms.top() << std::endl;
-		ms.pop();
-	}
-
-	ms.push(1);
-	ms.push(2);
-	ms.push(3);
-
-	MutatedStack<int>::const_iterator	it;
-
-	for (it=ms.begin(); it != ms.end(); ++it)
-		std::cout << "iterated stack value : " << *it << std::endl;
-
-	
-
-//	std::cout << ms << std::endl;
-	return (0);
-}
-*/

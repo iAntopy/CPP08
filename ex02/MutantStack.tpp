@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "MutantStack.hpp"
 #include <iostream>
 
 template <typename T, class Container>
@@ -19,9 +18,7 @@ MutantStack<T, Container>::MutantStack(void)
 	std::cout << "MutantStack default constructor" << std::endl;
 }
 
-//template <typename T>
 template <typename T, class Container>
-//template <typename T, class Container=std::deque<T>>
 MutantStack<T, Container>::MutantStack(const MutantStack<T, Container>& other): std::stack<T, Container>(other)
 {
 	std::cout << "MutantStack copy constructor" << std::endl;
