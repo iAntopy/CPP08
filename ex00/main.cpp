@@ -34,12 +34,12 @@ int main()
 		return (1);
 	}		
 	else
-		std::cout << "Value " << subject << " found at position : " << vit - v.begin() << std::endl;
+		std::cout << "Value " << *vit << " found in vector at position : " << vit - v.begin() << std::endl;
 
 	dit = easyfind(d, subject);
-	std::cout << "Value " << subject << " found at position : " << dit - d.begin() << std::endl;
+	std::cout << "Value " << *dit << " found in deque at position : " << dit - d.begin() << std::endl;
 	lit = easyfind(l, subject);
-	std::cout << "Value " << subject << " found in list : " << *lit << std::endl;
+	std::cout << "Value " << *lit << " found in list at position : " << std::distance(l.begin(), lit) << std::endl;
 
 	return (0);
 }

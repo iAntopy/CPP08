@@ -22,9 +22,6 @@
 template <typename T>
 typename T::iterator	easyfind(T& container, int subject)
 {
-//	try {typename T::iterator	it = container.begin();}
-//	catch (std::exception &e) {std::cerr << "Argument given is not a container" << std::endl;}
-	
 	for (typename T::iterator	it = container.begin(); it != container.end(); ++it)
 		if ((*it) == subject)
 			return (it);
