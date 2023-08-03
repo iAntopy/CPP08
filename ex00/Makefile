@@ -22,8 +22,8 @@ CPPFLGS	=	$(CPPSTD) -Wall -Werror -Wextra
 
 NAME	=	easyfind
 
-.c.o:
-	c++ $(CPPFLGS) -o $< -c $@
+.cpp.o:
+	c++ $(CPPFLGS) -o $@ -c $<
 
 $(NAME):	$(OBJS)
 	c++ $(CPPFLGS) -o $(NAME) $(OBJS)

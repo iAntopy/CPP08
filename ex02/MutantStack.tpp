@@ -28,6 +28,7 @@ template <typename T, class Container>
 MutantStack<T, Container>&   MutantStack<T, Container>::operator=(const MutantStack<T, Container>& other)
 {
 	std::cout << "MutantStack copy assignment operator" << std::endl;
+	this->operator=(other);
 	return (*this);
 }
 

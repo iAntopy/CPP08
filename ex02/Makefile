@@ -12,7 +12,7 @@
 
 SRCS	=	main.cpp
 
-CLS		=	#MutatedStack.cpp
+CLS		=	#NONE
 
 OBJS	=	$(SRCS:.cpp=.o) $(CLS:.cpp=.o)
 
@@ -22,8 +22,8 @@ CPPFLGS	=	$(CPPSTD) -Wall -Werror -Wextra
 
 NAME	=	MutatedStacking
 
-.c.o:
-	c++ $(CPPFLGS) -o $< -c $@
+.cpp.o:
+	c++ $(CPPFLGS) -o $@ -c $<
 
 $(NAME):	$(OBJS)
 	c++ $(CPPFLGS) -o $(NAME) $(OBJS)

@@ -92,7 +92,7 @@ uint32_t	Span::shortestSpan(void) const
 {
 	std::vector<int>::const_iterator 	it;
 	size_t								shortest = SIZE_MAX;
-	ssize_t								delta;
+	size_t								delta;
 
 	if (_data.size() < 2)
 		throw std::length_error("Cannot find shortest span with less then 2 span members.");
@@ -114,7 +114,7 @@ uint32_t	Span::longestSpan(void) const
 	return (*(_data.end() - 1) - *_data.begin());
 }
 
-int		Span::operator[](uint32_t i) const
+int			Span::operator[](uint32_t i) const
 {
 	if (i >= _data.size())
 		throw std::out_of_range("Span index out of bounds");

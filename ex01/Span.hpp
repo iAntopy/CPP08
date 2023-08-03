@@ -24,7 +24,6 @@ class Span
 {
 	private:
 		uint32_t			_max_size;
-//		uint32_t			_n;
 		std::vector<int>	_data;
 
 	public:
