@@ -31,8 +31,12 @@ Span::Span(const Span& other): _max_size(other._max_size), _data(other._data)
 Span&	Span::operator=(const Span& other)
 {
 	std::cout << "Span copy assignment opperator" << std::endl;
-	_max_size = other._max_size;
-	_data = other._data;
+
+	if (this != &other)
+	{
+		_max_size = other._max_size;
+		_data = other._data;
+	}
 	return (*this);
 }
 
