@@ -23,9 +23,9 @@
 class Span
 {
 	private:
-		uint32_t	_size;
-		uint32_t	_n;
-		int*		_data;
+		uint32_t			_max_size;
+//		uint32_t			_n;
+		std::vector<int>	_data;
 
 	public:
 		Span(void);
@@ -35,6 +35,7 @@ class Span
 		~Span(void);
 
 		void		addNumber(int nb);
+
 		void		addRange(std::vector<int>::const_iterator start, std::vector<int>::const_iterator end);
 		void		addRange(std::list<int>::const_iterator start, std::list<int>::const_iterator end);
 		void		addRange(std::deque<int>::const_iterator start, std::deque<int>::const_iterator end);

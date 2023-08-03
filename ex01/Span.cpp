@@ -12,42 +12,27 @@
 
 #include "Span.hpp"
 
-Span::Span(void): _n(0), _size(0), _data(NULL)
+Span::Span(void): _max_size(0)
 {
 	std::cout << "Span default constuctor" << std::endl;
 }
 
-Span::Span(uint32_t n): _n(0), _size(n), _data(NULL)
+Span::Span(uint32_t N): _max_size(N)
 {
 	std::cout << "Span default constuctor" << std::endl;
-	_data = new int[_size];
+	std::fill(_data.begin(), _data.end(), 0);
 }
 
-Span::Span(const Span& other): _n(other._n), _size(other._size), _data(NULL)
+Span::Span(const Span& other): _max_size(other._max_size), _data(other._data)
 {
 	std::cout << "Span copy constuctor" << std::endl;
-	if (other._data)
-	{
-		_data = new int[_size];
-		for (size_t i=0; i < _n; ++i)
-			_data[i] = other._data[i];
-	}
 }
 
 Span&	Span::operator=(const Span& other)
 {
 	std::cout << "Span copy assignment opperator" << std::endl;
-	
-	if (other._data)
-	{
-		if (_data)
-			delete[] _data;
-		_n = other._n;
-		_size = other._size;
-		_data = new int[_size];
-		for (size_t i=0; i < _n; ++i)
-			_data[i] = other._data[i];
-	}
+	_max_size = other._max_size;
+	_data = other._data;
 	return (*this);
 }
 
@@ -55,10 +40,12 @@ Span::~Span(void) {std::cout << "Span destructor" << std::endl;}
 
 void	Span::addNumber(int nb)
 {
-	if (_n >= _size)
+	if (_data.size() >= _max_size)
 		throw std::length_error("Max nb of member elements reached");
-
-	_data[_n++] = nb;
+	if (_data.size() == 0)
+		_data.push_back(nb);
+	else
+		_data.insert(std::upper_bound(_data.begin(), _data.end(), nb), nb);
 }
 
 void	Span::addRange(std::vector<int>::const_iterator start, std::vector<int>::const_iterator end)
@@ -67,11 +54,11 @@ void	Span::addRange(std::vector<int>::const_iterator start, std::vector<int>::co
 
 	if (range_size < 0)
 		throw std::invalid_argument("Iterators in wrong order.");
-	else if ((range_size + _n) > _size)
+	else if ((range_size + _data.size()) > _max_size)
 		throw std::invalid_argument("Adding this range would exceed Span capacity.");
-	
-	for (; start != end; ++start)
-		_data[_n++] = *start;
+
+	std::copy(start, end, std::back_inserter(_data));
+	std::sort(_data.begin(), _data.end());
 }
 
 void	Span::addRange(std::list<int>::const_iterator start, std::list<int>::const_iterator end)
@@ -80,11 +67,11 @@ void	Span::addRange(std::list<int>::const_iterator start, std::list<int>::const_
 
 	if (range_size < 0)
 		throw std::invalid_argument("Iterators in wrong order.");
-	else if ((range_size + _n) > _size)
+	else if ((range_size + _data.size()) > _max_size)
 		throw std::invalid_argument("Adding this range would exceed Span capacity.");
 	
-	for (; start != end; ++start)
-		_data[_n++] = *start;
+	std::copy(start, end, std::back_inserter(_data));
+	std::sort(_data.begin(), _data.end());
 }
 
 void	Span::addRange(std::deque<int>::const_iterator start, std::deque<int>::const_iterator end)
@@ -93,78 +80,66 @@ void	Span::addRange(std::deque<int>::const_iterator start, std::deque<int>::cons
 
 	if (range_size < 0)
 		throw std::invalid_argument("Iterators in wrong order.");
-	else if ((range_size + _n) > _size)
+	else if ((range_size + _data.size()) > _max_size)
 		throw std::invalid_argument("Adding this range would exceed Span capacity.");
 	
-	for (; start != end; ++start)
-		_data[_n++] = *start;
+	std::copy(start, end, std::back_inserter(_data));
+	std::sort(_data.begin(), _data.end());
 }
 
+// Work on the assumption that _data is sorted. Which it is.
 uint32_t	Span::shortestSpan(void) const
 {
-	size_t	shortest = SIZE_MAX;
-	ssize_t	delta;
+	std::vector<int>::const_iterator 	it;
+	size_t								shortest = SIZE_MAX;
+	ssize_t								delta;
 
-	if (_n < 2)
+	if (_data.size() < 2)
 		throw std::length_error("Cannot find shortest span with less then 2 span members.");
 
-	for (uint32_t i=0; i < (_n - 1); ++i)
+	for (it = _data.begin(); it < (_data.end() - 1); ++it)
 	{
-		for (uint32_t j=(i + 1); j < _n; ++j)
-		{
-			delta = std::abs(_data[i] - _data[j]);
-			if (delta < shortest)
-				shortest = delta;
-		}
+		delta = (*(it + 1) - *it);
+		if (delta < shortest)
+			shortest = delta;
 	}
 	return (shortest);
 }
 
+// Work on the assumption that _data is sorted. Which it is.
 uint32_t	Span::longestSpan(void) const
 {
-	int	span_min = this->min();
-	int	span_max = this->max();
-	
-	if (_n < 2)
+	if (_data.size() < 2)
 		throw std::length_error("Cannot find shortest span with less then 2 span members.");
-	return (this->max() - this->min());
+	return (*(_data.end() - 1) - *_data.begin());
 }
 
 int		Span::operator[](uint32_t i) const
 {
-	if (i >= _n)
+	if (i >= _data.size())
 		throw std::out_of_range("Span index out of bounds");
 	return (_data[i]);
 }
 
+// Work on the assumption that _data is sorted. Which it is.
 int			Span::min(void) const
 {
-	int		cur_min = INT_MAX;
-	
-	if (_n == 0)
+	if (_data.size() == 0)
 		throw std::length_error("Trying to find Span min while size == 0.");
-	
-	for (uint32_t i=0; i < _n; ++i)
-		if (_data[i] < cur_min)
-			cur_min = _data[i];
-	return (cur_min);
+
+	return (_data[0]);
 }
 
+// Work on the assumption that _data is sorted. Which it is.
 int			Span::max(void) const
 {
-	int		cur_max = INT_MIN;
-
-	if (_n == 0)
+	if (_data.size() == 0)
 		throw std::length_error("Trying to find Span max while size == 0.");
-	
-	for (uint32_t i=0; i < _n; ++i)
-		if (_data[i] > cur_max)
-			cur_max = _data[i];
-	return (cur_max);
+	return (*(_data.end() - 1));
 }
 
-uint32_t		Span::size(void) const {return (_n);}
-uint32_t		Span::capacity(void) const {return (_size);}
+uint32_t		Span::size(void) const {return (_data.size());}
+uint32_t		Span::capacity(void) const {return (_max_size);}
 
 std::ostream&	operator<<(std::ostream& o, const Span& sp)
 {

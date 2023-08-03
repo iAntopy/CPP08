@@ -13,8 +13,9 @@
 #ifndef EASYFIND_HPP
 # define EASYFIND_HPP
 
-# include <iostream>
+# include <algorithm>
 # include <iterator>
+# include <iostream>
 # include <vector>
 # include <list>
 # include <deque>
@@ -22,10 +23,9 @@
 template <typename T>
 typename T::iterator	easyfind(T& container, int subject)
 {
-	for (typename T::iterator	it = container.begin(); it != container.end(); ++it)
-		if ((*it) == subject)
-			return (it);
-	return (container.end());
+	typename T::iterator	it = std::find(container.begin(), container.end(), subject);
+
+	return (it);
 }
 
 #endif

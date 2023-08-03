@@ -27,6 +27,15 @@ int main()
 
 	int					subject = 99;
 
+	/// Value not found test
+	vit = easyfind(v, 0);
+	if (vit == v.end())
+		std::cout << "SUCCESS ! Trying to find 0 in vector returned v.end() iterator." << std::endl;
+	else
+		std::cerr << "FAILURE ! Trying to find 0 in vector did NOT return v.end() iterator." << std::endl;
+	
+
+	/// Value found cases.
 	vit = easyfind(v, subject);
 	if (vit == v.end())
 	{

@@ -35,7 +35,6 @@ void	test_constructor(void)
 
 
 
-
 void	test_add_number(void)
 {
 	std::cout << std::endl << "Starting Span addNumber() tests : " << std::endl;
@@ -61,11 +60,11 @@ void	test_longuest_and_shortest_span(void)
 	std::cout << std::endl << "Starting Span longestSpan and shortestSpan tests : " << std::endl;
 	Span    sp(6);
 	
-	try {std::cout << sp.longestSpan() << std::endl; std::cout << sp.shortestSpan() << std::endl;}
+	try {std::cout << sp.longestSpan() << std::endl;}
 	catch (std::exception &e) {std::cerr << "Cannot call longestSpan() on Span with < 2 members. SUCCESS !" << std::endl;}
 
 	sp.addNumber(0);
-	try {std::cout << sp.longestSpan() << std::endl; std::cout << sp.shortestSpan() << std::endl;}
+	try {std::cout << sp.shortestSpan() << std::endl;}
 	catch (std::exception &e) {std::cerr << "Cannot call shortestSpan() on Span with < 2 members. SUCCESS !" << std::endl;}
 
 	sp.addNumber(50);
@@ -82,8 +81,8 @@ void	test_longuest_and_shortest_span(void)
 
 	
 	std::cout << "Span before final test : " << sp << std::endl;
-	std::cout << "Shortest span : " << sp.shortestSpan() << ",		should == 1" << std::endl;
-	std::cout << "Longuest span : " << sp.longestSpan() << ",	should == 1000000100" << std::endl;
+	std::cout << "Shortest span : " << sp.shortestSpan() << ",		(expected: 1)" << std::endl;
+	std::cout << "Longuest span : " << sp.longestSpan() << ",	(expected: 1000000100)" << std::endl;
 }
 
 
@@ -99,8 +98,10 @@ void	test_standard(void)
 	sp.addNumber(17);
 	sp.addNumber(9);
 	sp.addNumber(11);
-	std::cout << sp.shortestSpan() << std::endl;
-	std::cout << sp.longestSpan() << std::endl;
+
+	std::cout << sp << std::endl;
+	std::cout << "Shortest: " << sp.shortestSpan() << std::endl;
+	std::cout << "Longuest: " << sp.longestSpan() << std::endl;
 }
 
 
@@ -147,11 +148,13 @@ void	test_add_range_with_range_of_iterators(void)
 {
 	std::cout << std::endl << "Starting Span add range with a range of iterator types tests : " << std::endl;
 	int	arr[3] = {1, 42, 100};
+	int	arr2[3] = {-1, -42, -100};
+	int	arr3[3] = {0, 99999, -99999};
 	Span				sp(9);
 
 	std::vector<int>	v(arr, arr + (sizeof(arr) / sizeof(arr[0])));
-	std::list<int>		l(arr, arr + (sizeof(arr) / sizeof(arr[0])));
-	std::deque<int>		d(arr, arr + (sizeof(arr) / sizeof(arr[0])));
+	std::list<int>		l(arr2, arr2 + (sizeof(arr2) / sizeof(arr2[0])));
+	std::deque<int>		d(arr3, arr3 + (sizeof(arr3) / sizeof(arr3[0])));
 
 	sp.addRange(v.begin(), v.end());
 	sp.addRange(l.begin(), l.end());
